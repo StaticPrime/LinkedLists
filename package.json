@@ -1,0 +1,20 @@
+{
+    "name": "linkedlists",
+    "description": "Double and Single Linked Lists with supporting functions",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "tsc",
+      "lint": "eslint . --ext .ts"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/StaticPrime/LinkedLists.git"
+    },
+    "author": "Jason Breault",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/StaticPrime/LinkedLists/issues"
+    },
+    "homepage": "https://github.com/StaticPrime/LinkedLists#readme"
+  }
+  
