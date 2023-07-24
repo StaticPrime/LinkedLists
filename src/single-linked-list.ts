@@ -9,7 +9,7 @@ class SingleLinkedList<T> {
         this.size = 0
     }
 
-    private addHead(value: T) {
+    private createHead(value: T) {
         this.head = new SingleListNode(value, this.head)
         this.size++
     }
@@ -21,17 +21,21 @@ class SingleLinkedList<T> {
         this.size--
     }
 
-    getSize(): number {
-        return this.size
+    private isValidRange(index?: number): boolean {
+        return (index !== undefined && index !== null && index >= 0 && index < this.getSize())
     }
 
     isEmpty(): boolean {
         return this.size === 0
     }
 
-    addNode(value: T) {
+    getSize(): number {
+        return this.size
+    }
+
+    createNode(value: T) {
         if (this.isEmpty()) {
-            this.addHead(value)
+            this.createHead(value)
         } else {
             let currentNode = this.head
             while (currentNode.next) {
@@ -42,56 +46,54 @@ class SingleLinkedList<T> {
         }
     }
 
-    removeNode() {
-        if (this.isEmpty()) return
-
-        let currentNode = this.head
-        while (currentNode) {
-            if (currentNode.next && !currentNode.next.next) {
-                currentNode.next = null
-                this.size--
-            }
-            currentNode = currentNode.next
-        }
-    }
-
-    getByIndex(index: number): SingleListNode<T> | null {
-        if (index < 0 || index > this.size - 1) return null
-        if (index === 0) return this.head
-
-        let current = this.head
-        for (let i = 0; i < index; i++) {
-            current = current.next
-        }
-        return current
-    }
-
-    insertAt(index: number, value: T) {
-        if (index < 0 || index > this.size - 1) return
-        if (index === 0) {
-            this.addHead(value)
-        } else {
-            const currentIndexNode = this.getByIndex(index)
-
-            if (currentIndexNode) {
-                currentIndexNode.next = new SingleListNode(value, currentIndexNode.next)
-                this.size++
-            }
-        }
-    }
-
-    removeAt(index: number) {
-        if (index < 0 || index > this.size) return
+    removeNode(index?: number) {
+        if (!this.isValidRange(index)) return
         if (index === 0) {
             this.removeHead()
         } else {
-            const currentIndexNode = this.getByIndex(index)
-
-            if (currentIndexNode) {
-                currentIndexNode.next = currentIndexNode.next.next
-                this.size--
+            let currentNode = this.head
+            for (let i = 0; i < index - 1; i++) {
+                currentNode = currentNode.next
             }
+            currentNode.next = currentNode.next.next
+            this.size--
         }
+    }
+
+    findAt(index: number): SingleListNode<T> | null {
+        if (!this.isValidRange(index)) return null
+
+        let currentNode = this.head
+        for (let i = 0; i < index; i++) {
+            currentNode = currentNode.next
+        }
+        return currentNode
+    }
+
+    insertAt(index: number, value: T) {
+        if (!this.isValidRange(index)) return
+        if (index === 0) {
+            this.createHead(value)
+        } else {
+            let currentNode = this.head
+            for (let i = 0; i < index - 1; i++) {
+                currentNode = currentNode.next
+            }
+            const newNode = new SingleListNode(value, currentNode.next)
+            currentNode.next = newNode
+            this.size++
+        }
+    }
+
+    print(): string {
+        let currentNode = this.head
+        let output = `(Head)[${currentNode.value}]->`
+        while (currentNode.next) {
+            currentNode = currentNode.next
+            output += `[${currentNode.value}]->`
+        }
+        console.log(output)
+        return output
     }
 }
 
